@@ -20,9 +20,188 @@ own functions.
 FilterPipes makes it crazy-simple for you to create your own custom filter
 plugins. There are some pre-defined classes for simple text replacement,
 regular expressions, character-for-character translations, and external
-processes.
+processes. Creating your own custom filter is as simple as creating a
+Python class with a single method called `filter` as demonstrated below: 
 
 ![Plugin creation animation](https://raw.githubusercontent.com/tylerl/FilterPipes/media/fp_reverse.gif)
+
+# Provided Commands
+
+The following commands are included. All commands are accessible from
+the command palette. No shortcut keys are assigned by default,
+though you are free to add your own if you like. 
+
+* **My Custom Filters Plugin**: Create and access your own FilterPipes-derived
+custom plugin. The first time you run this command it will create the plugin
+for you and add some sample content. Every subsequent run will simply open
+your existing plugin directory.
+* **Send Text to Command**: Prompts you for a shell command to run, and 
+then executes that command using your selection(s) as `stdin`, and replacing
+them with `stdout` if the program ends successfully.
+* **Base64 Encode** and **Base64 Decode**: Encodes and decodes text using
+[Base64](Base64 Decode) encoding rules.
+* **URL Encode** and **URL Decode**: Similarly, encodes and decodes text
+using [URL ("percent") encoding](http://en.wikipedia.org/wiki/Percent-encoding).
+* **String Escape** and **String Unescape**: Encodes and decodes strings using
+simple string-escaping rules (e.g. TAB character becomes `\t`, newline becomes
+`\n`, and so forth.
+* **Strip Trailing Space**: Does what it says on the tin: it strips any spaces
+at the end of lines. While mildly useful, this is here primarily because I
+wanted to include an example of a Regex-based filter.
+
+### Example Filters
+
+These filters are included in the "My Custom Filters Plugin" example. Run the
+"My Custom Filters Plugin" command to install them.
+
+Most of these filters don't use any custom Python class, but instead use the
+customization options of the provided generic filters to do something more
+interesting. The only code will be the entry in `Default.sublime-commands` file
+for your created plugin.
+
+#### Translation Commands
+These provide simple character-for-character translations to apply. Think of
+them like the unix `tr` command, if you're nerdy enough to ever have used it.
+
+* **Swap Quotes**: Swaps single quotes for double quotes (and vice-versa).
+(surprisingly useful).
+* **Convert to Straight Quotes**: Turns all the varieties of "smart quotes" into
+normal "straight" quotes, like any good programmer would prefer.
+
+#### Regex Filter
+Your regex filter configuration provides a simple search regex and replacement
+string. It's not unlike regex-based search-and-replace, except your setup gets
+baked into a single simple command.
+* **collapse spaces**: Turns runs of whitespace into a single space character.
+This one probably could use a bit of work; see if you can improve it.
+
+#### Process Filters
+Entire plugins have been written for performing this one simple action. Actually,
+this plugin started out as one of them. It's gotten much more useful since then,
+though. This filter type lets you specify a command to run. Kind of like the
+"Send Text to Command" filter, but without the input prompt, and (by default)
+without the shell interpretation (you can optionally turn that on, though).
+
+* **Beautify JS (js-beautify)**: Many javascript developers use a command called
+"js-beautify" to clean up their code. This filter calls that command... assuming
+it's installed in the PATH. Otherwise, it does nothing but serve as an example
+of how to write this kind of filter.
+* **Minify JS (uglifyjs)**: Just like the above, but exactly the opposite. This
+command makes your javascript compact and illegible... assuming you have it
+installed -- the same caveat applies as above.
+
+#### Python Filters
+These are the *really* cool ones. You write your own python code to transform
+the selected text. Note that the naming of the command follows the same pattern
+as per normal for SublimeText. You convert the Python class name from CamelCase
+to underscore_case and remove `_command` from the end to ge the name that goes into
+your `.sublime-commands` file. This is done internally by SublimeText, so don't get
+mad at me about it.
+
+* **Reverse Words**: This is the example coded in the animation above. It reverses
+the order of words delimited by spaces. I have no idea why anyone would ever
+want to do that, but the code is tiny and the effect is obvious, so it makes a
+pretty compelling piece of example code.
+
+* **to CamelCase**: Converts words from `underscore_case` to `CamelCase`.
+* **to mixedCase**: Converts words from `underscore_case` to `mixedCase`, which is
+exactly the same as CamelCase, but without the first letter capitalized. In fact,
+both these filters use the same Python class. This filter demonstrates how to add
+your own custom command options.
+* **to underscore_case**: Converts from `CamelCase` back to `underscore_case`, included
+mostly out of an obsessive-compulsive need for parity.
+
+# Creating Your Own
+
+To write your own plugin, start out by bringing up the command pallete (typically 
+<kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>P</kbd> or 
+<kbd>cmd</kbd>+<kbd>shift</kbd>+<kbd>P</kbd>) and running "My Custom Filters Plugin".
+Even if you don't end up using the plugin it creates, this will at least give
+you a working scaffold with all the right configuration and examples such to get started.
+
+All commands take the optional parameter `use_selections`, which when set to false, tells
+the system to ignore your text selections and pass the whole file in. Typically this is
+useful for tools that use the entire file for context, such as source code formatters.
+
+## Using the built-in filter classes
+
+Generic filter classes are provided that allow you to do a lot of cool things without
+writing any Python code. For these, you don't need a custom plugin, you can just
+put the appropriate command invocation in your own `.sublime-settings` or `.sublime-keymap`
+file. 
+
+#### Using `filter_pipes_process`
+
+This sends text to an external process. The general configuration looks like 
+this. Note that unless you've specified `shell` as `true`, you'll want your 
+command to be a list of parameters rather than a single string. 
+
+```json
+{
+    "caption": "YOLO Text",
+    "command": "filter_pipes_process",
+    "args": {
+        "command": ["banner", "-w", "80"],
+        "shell": false
+    }
+}
+```
+
+#### Using `filter_pipes_translate`
+
+Does character-for-character translations using Python's `string.translate`
+function. That remark earlier about the `tr` command? Yeah, time to get your *Nerd* on.
+
+```json
+{
+    "caption": "H4X0R",
+    "command": "filter_pipes_translate",
+    "args": {
+        "before": "AaEeiIoOlsSTt",
+        "after":  "4433110015577"
+    }
+}
+```
+
+#### Using `filter_pipes_regex`
+
+Supply a regex and replacement. Pretty straightforward, but don't forget that
+backslashes have to be escaped for JSON encoding.
+
+```json
+{
+    "caption": "Format Phone Numbers",
+    "command": "filter_pipes_regex",
+    "args": {
+        "regex": "(\\d{3})(\\d{3})(\\d{4})",
+        "replacement":  "(\\1) \\2-\\3"
+    }
+}
+```
+
+#### Writing your own custom Python Filters
+
+Here's where the real magic happens. You can very easily write
+custom code to transform your text in any way imaginable, and
+it only takes a minute or two to get going.
+
+Once you've got your custom filter plugin created, open
+up the `myfilters.py` file and at the bottom of the file
+create a class like this:
+
+```python
+class SuperAwesomeFilterCommand(filterpipes.FilterPipesCommandBase):
+    """Does approximately nothing, but does it with style."""
+    def filter(self, data):
+        data
+```
+
+The class name determines the command name using the SublimeText rules
+metioned earlier. So `SuperAwesomeFilterCommand` becomes `super_awesome_filter`.
+
+Whatever your `filter()` function returns is what your text will
+be replaced with. So go get creative.
+
 
 # Copyright and License
 
