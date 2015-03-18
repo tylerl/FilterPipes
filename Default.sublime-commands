@@ -1,0 +1,64 @@
+[
+  /* Prompts for a command and executes it on the shell */
+  {
+    "caption": "FilterPipes: Send Text to Command",
+    "command": "filter_pipes_exec_prompt"
+  },
+  /* Creates (or opens) your own customer FilterPipes plugin */
+  {
+    "caption": "FilterPipes: My Custom Filters Plugin",
+    "command": "filter_pipes_my_plugin"
+  },
+
+  /* Various encode/decode functions provided in filters.py */
+  {
+    "caption": "FilterPipes: Base64 Encode",
+    "command": "filter_pipes_base64",
+    "args": {
+      "decode": false,
+      "wrap": 64
+    }
+  },
+  {
+    "caption": "FilterPipes: Base64 Decode",
+    "command": "filter_pipes_base64",
+    "args": {
+      "decode": true
+    }
+  },
+  {
+    "caption": "FilterPipes: URL Encode",
+    "command": "filter_pipes_urlencode",
+    "args": {
+      "decode": false,
+    }
+  },
+  {
+    "caption": "FilterPipes: URL Decode",
+    "command": "filter_pipes_urlencode",
+    "args": {
+      "decode": true
+    }
+  },
+  {
+      "caption": "FilterPipes: String Escape",
+      "command": "filter_pipes_escape"
+  },
+  {
+      "caption": "FilterPipes: String Unescape",
+      "command": "filter_pipes_escape",
+      "args": {
+        "decode": true
+      }
+  },
+  /* Example of using the filter_pipes_regex functionality */
+  {
+    "caption": "FilterPipes: Strip Trailing Space",
+    "command": "filter_pipes_regex",
+    "args": {
+      "regex": "[\t ]+$",
+      "replacement": "",
+      "lines": true
+    }
+  }
+]
