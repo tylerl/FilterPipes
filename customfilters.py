@@ -14,8 +14,11 @@
 #
 # This is not an official Google product.
 
-"""
-Custom FilterPipes plugin creation.
+"""Custom FilterPipes plugin creation.
+
+The components in this file handle the creation and access
+of your custom FilterPipes plugin project. The full content
+of the custom plugin is contained here.
 
 Part of the FilterPipes SublimeText Plugin.
 github.com/tylerl/FilterPipes
@@ -111,7 +114,7 @@ CONTENT_TEMPLATE = {
         "caption": "FilterPipes Example: collapse spaces",
         "command": "filter_pipes_regex",
         "args": {
-            "regex": "\\s\\s+",
+            "regex": "\\s+",
             "replacement": " "
         }
     },

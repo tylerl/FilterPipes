@@ -21,7 +21,7 @@ FilterPipes makes it crazy-simple for you to create your own custom filter
 plugins. There are some pre-defined classes for simple text replacement,
 regular expressions, character-for-character translations, and external
 processes. Creating your own custom filter is as simple as creating a
-Python class with a single method called `filter` as demonstrated below: 
+Python class with a single method called `filter` as demonstrated below:
 
 ![Plugin creation animation](https://raw.githubusercontent.com/tylerl/FilterPipes/media/fp_reverse.gif)
 
@@ -29,13 +29,13 @@ Python class with a single method called `filter` as demonstrated below:
 
 The following commands are included. All commands are accessible from
 the command palette. No shortcut keys are assigned by default,
-though you are free to add your own if you like. 
+though you are free to add your own if you like.
 
 * **My Custom Filters Plugin**: Create and access your own FilterPipes-derived
 custom plugin. The first time you run this command it will create the plugin
 for you and add some sample content. Every subsequent run will simply open
 your existing plugin directory.
-* **Send Text to Command**: Prompts you for a shell command to run, and 
+* **Send Text to Command**: Prompts you for a shell command to run, and
 then executes that command using your selection(s) as `stdin`, and replacing
 them with `stdout` if the program ends successfully.
 * **Base64 Encode** and **Base64 Decode**: Encodes and decodes text using
@@ -72,8 +72,9 @@ normal "straight" quotes, like any good programmer would prefer.
 Your regex filter configuration provides a simple search regex and replacement
 string. It's not unlike regex-based search-and-replace, except your setup gets
 baked into a single simple command.
-* **collapse spaces**: Turns runs of whitespace into a single space character.
-This one probably could use a bit of work; see if you can improve it.
+* **collapse spaces**: Turns runs of any sort of whitespace into a single
+space character.
+
 
 #### Process Filters
 Entire plugins have been written for performing this one simple action. Actually,
@@ -113,8 +114,8 @@ mostly out of an obsessive-compulsive need for parity.
 
 # Creating Your Own
 
-To write your own plugin, start out by bringing up the command pallete (typically 
-<kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>P</kbd> or 
+To write your own plugin, start out by bringing up the command pallete (typically
+<kbd>ctrl</kbd>+<kbd>shift</kbd>+<kbd>P</kbd> or
 <kbd>cmd</kbd>+<kbd>shift</kbd>+<kbd>P</kbd>) and running "My Custom Filters Plugin".
 Even if you don't end up using the plugin it creates, this will at least give
 you a working scaffold with all the right configuration and examples such to get started.
@@ -128,13 +129,13 @@ useful for tools that use the entire file for context, such as source code forma
 Generic filter classes are provided that allow you to do a lot of cool things without
 writing any Python code. For these, you don't need a custom plugin, you can just
 put the appropriate command invocation in your own `.sublime-settings` or `.sublime-keymap`
-file. 
+file.
 
 #### Using `filter_pipes_process`
 
-This sends text to an external process. The general configuration looks like 
-this. Note that unless you've specified `shell` as `true`, you'll want your 
-command to be a list of parameters rather than a single string. 
+This sends text to an external process. The general configuration looks like
+this. Note that unless you've specified `shell` as `true`, you'll want your
+command to be a list of parameters rather than a single string.
 
 ```json
 {
@@ -193,7 +194,7 @@ create a class like this:
 class SuperAwesomeFilterCommand(filterpipes.FilterPipesCommandBase):
     """Does approximately nothing, but does it with style."""
     def filter(self, data):
-        data
+        return data
 ```
 
 The class name determines the command name using the SublimeText rules

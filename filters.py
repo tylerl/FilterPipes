@@ -14,11 +14,10 @@
 #
 # This is not an official Google product.
 
-"""
-Included filters for FilterPipes.
+"""Included filters for FilterPipes.
 
-These filters use the base classes from the filterpipes library
-to
+These filters build upon the classes from the filterpipes base
+library to provide a useful set of features for everyday use.
 
 Part of the FilterPipes SublimeText Plugin.
 github.com/tylerl/FilterPipes
