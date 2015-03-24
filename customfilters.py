@@ -44,7 +44,7 @@ class FilterPipesMyPluginCommand(sublime_plugin.WindowCommand):
                     'w') as f:   # 420 = 0644
                 if name == README_FILENAME:
                     content = content.format(directory=plugin_dir)
-                f.write(content.encode('UTF-8'))
+                f.write(content)
 
     def _maybe_create_plugin(self, plugin_dir):
         if not sublime.ok_cancel_dialog(

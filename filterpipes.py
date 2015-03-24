@@ -220,12 +220,10 @@ class FilterPipesTranslateCommand(FilterPipesCommandBase):
         if not self.before or not self.after:
             return None
         if PYTHON2:
-            b = [ord(c) for c in self.before]
-            a = self.after
+            trans = dict(zip([ord(c) for c in self.before], self.after))
         else:
-            b = self.before
-            a = self.after            
-        return data.translate(dict(zip(b,a)))
+            trans = str.maketrans(self.before,self.after)
+        return data.translate(trans)
 
 
 class FilterPipesRegexCommand(FilterPipesCommandBase):
