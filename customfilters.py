@@ -36,15 +36,15 @@ README_FILENAME = 'README.txt'
 
 class FilterPipesMyPluginCommand(sublime_plugin.WindowCommand):
     def _create_plugin_impl(self, plugin_dir):
-        os.mkdir(plugin_dir, mode=493)  # 0755 (python 2/3 safe)
+        os.mkdir(plugin_dir, 493)  # 0755 (python 2/3 safe)
         for name, content in CONTENT_TEMPLATE.items():
             filepath = os.path.join(plugin_dir, name)
             with os.fdopen(
                 os.open(filepath, os.O_WRONLY | os.O_CREAT, 420),
-                    'w', encoding='utf-8') as f:   # 420 = 0644
+                    'w') as f:   # 420 = 0644
                 if name == README_FILENAME:
                     content = content.format(directory=plugin_dir)
-                f.write(content)
+                f.write(content.encode('UTF-8'))
 
     def _maybe_create_plugin(self, plugin_dir):
         if not sublime.ok_cancel_dialog(
@@ -96,7 +96,7 @@ CONTENT_TEMPLATE = {
         "caption": "FilterPipes Example: Convert to Straight Quotes",
         "command": "filter_pipes_translate",
         "args": {
-            "before": "“”‟〝〞＂„〟‘’‛＇‚",
+            "before": "\u201c\u201d\u201f\u301d\u301e\uff02\u201e\u301f\u2018\u2019\u201b\uff07\u201a",
             "after": "\"\"\"\"\"\"\"\"'''''"
         }
     },
@@ -158,7 +158,7 @@ CONTENT_TEMPLATE = {
 
     {   /* See ReverseWordsCommand */
         "caption": "FilterPipes Example: Reverse Words",
-        "command": "reverse_words",
+        "command": "reverse_words"
     },
 
     {   /* See CamelCaseFilterCommand */

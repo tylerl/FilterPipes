@@ -30,7 +30,7 @@
     "caption": "FilterPipes: URL Encode",
     "command": "filter_pipes_urlencode",
     "args": {
-      "decode": false,
+      "decode": false
     }
   },
   {

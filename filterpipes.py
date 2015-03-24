@@ -39,9 +39,11 @@ import re
 ###############################################################
 # Python/Sublime version compatibility
 if sys.version_info[0] == 2:   # Python 2.x specific (ST2)
+    PYTHON2=True
     def is_str(obj):
         return isinstance(obj, basestring)
 else:  # Python 3.x
+    PYTHON2=False
     def is_str(obj):  # Python 3.x specific (ST3)
         return isinstance(obj, str)
 ###############################################################
@@ -217,7 +219,13 @@ class FilterPipesTranslateCommand(FilterPipesCommandBase):
     def filter(self, data):
         if not self.before or not self.after:
             return None
-        return data.translate(str.maketrans(self.before, self.after))
+        if PYTHON2:
+            b = [ord(c) for c in self.before]
+            a = self.after
+        else:
+            b = self.before
+            a = self.after            
+        return data.translate(dict(zip(b,a)))
 
 
 class FilterPipesRegexCommand(FilterPipesCommandBase):

@@ -64,7 +64,7 @@ These provide simple character-for-character translations to apply. Think of
 them like the unix `tr` command, if you're nerdy enough to ever have used it.
 
 * **Swap Quotes**: Swaps single quotes for double quotes (and vice-versa).
-(surprisingly useful).
+(surprisingly useful, but not context-aware).
 * **Convert to Straight Quotes**: Turns all the varieties of "smart quotes" into
 normal "straight" quotes, like any good programmer would prefer.
 
