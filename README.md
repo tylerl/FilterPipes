@@ -72,8 +72,9 @@ normal "straight" quotes, like any good programmer would prefer.
 Your regex filter configuration provides a simple search regex and replacement
 string. It's not unlike regex-based search-and-replace, except your setup gets
 baked into a single simple command.
-* **collapse spaces**: Turns runs of any sort of whitespace into a single
-space character.
+
+* **Collapse Spaces**: Turns runs of any sort of whitespace into a single
+space character. 
 
 
 #### Process Filters
@@ -82,6 +83,10 @@ this plugin started out as one of them. It's gotten much more useful since then,
 though. This filter type lets you specify a command to run. Kind of like the
 "Send Text to Command" filter, but without the input prompt, and (by default)
 without the shell interpretation (you can optionally turn that on, though).
+
+Note that the included examples require you to install the associated program.
+You may have to fiddle with the path (and perhaps command-line options) as well,
+depending on your local installation.
 
 * **Beautify JS (js-beautify)**: Many javascript developers use a command called
 "js-beautify" to clean up their code. This filter calls that command... assuming
@@ -103,7 +108,6 @@ mad at me about it.
 the order of words delimited by spaces. I have no idea why anyone would ever
 want to do that, but the code is tiny and the effect is obvious, so it makes a
 pretty compelling piece of example code.
-
 * **to CamelCase**: Converts words from `underscore_case` to `CamelCase`.
 * **to mixedCase**: Converts words from `underscore_case` to `mixedCase`, which is
 exactly the same as CamelCase, but without the first letter capitalized. In fact,
@@ -203,6 +207,32 @@ metioned earlier. So `SuperAwesomeFilterCommand` becomes `super_awesome_filter`.
 Whatever your `filter()` function returns is what your text will
 be replaced with. So go get creative.
 
+Note that if you want your plugin to take some configurable parameter
+from the `.sublime-commands` file, it's pretty easy. First you create
+a class variable and assign it your desired default value:
+
+```python
+class SurroundSelectionCommand(filterpipes.FilterPipesCommandBase):
+    """Prepends and appends some string to the selected text."""
+    prepend = '{'
+    append = '}'
+    def filter(self, data):
+        return self.prepend + data + self.append
+```
+
+Then in your `.sublime-keymap` or `.sublime-commands` file, specify
+some alternate value for those variables in the "args" section like so:
+
+```json
+{
+    "caption": "Double Power Bracket",
+    "command": "surround_selection",
+    "args": {
+        "prepend": ".:[[",
+        "append": "]]:."
+    }
+}
+```
 
 # Copyright and License
 
