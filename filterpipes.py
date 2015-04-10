@@ -164,13 +164,16 @@ class FilterPipesProcessCommand(FilterPipesCommandBase):
     shell = False
     report_failure = False  # we do our own failure reporting
     expected_returns = [0]
+    subprocess_args = {}
 
     def _execute_raw(self, command, text):
         """Executes a command and returns stdout, stderr, and return code."""
-        cmd = subprocess.Popen(command, shell=self.shell,
+        args = self.subprocess_args or {}
+        args['shell'] = self.shell
+        cmd = subprocess.Popen(command,
                                stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
+                               stderr=subprocess.PIPE, **args)
         (stdout, stderr) = cmd.communicate(text.encode('UTF-8'))
         return (stdout, stderr, cmd.returncode)
 
