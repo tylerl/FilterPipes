@@ -163,23 +163,25 @@ class FilterPipesProcessCommand(FilterPipesCommandBase):
     use_selections = True
     shell = False
     report_failure = False  # we do our own failure reporting
+    expected_returns = [0]
 
     def _execute_raw(self, command, text):
         """Executes a command and returns stdout, stderr, and return code."""
-        try:
-            cmd = subprocess.Popen(command, shell=self.shell,
-                                   stdin=subprocess.PIPE,
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE)
-            (stdout, stderr) = cmd.communicate(text.encode('UTF-8'))
-            return (stdout, stderr, cmd.returncode)
-        except OSError as e:
-            return (None, str(e), e.errno)
+        cmd = subprocess.Popen(command, shell=self.shell,
+                               stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+        (stdout, stderr) = cmd.communicate(text.encode('UTF-8'))
+        return (stdout, stderr, cmd.returncode)
 
     def _expect_success(self, command, text):
-        stdout, stderr, status = self._execute_raw(command, text)
-        if status == 0:
-            return stdout.decode('UTF-8')
+        try:
+            stdout, stderr, status = self._execute_raw(command, text)
+            if not self.expected_returns or status in self.expected_returns:
+                return stdout.decode('UTF-8')
+        except OSError as e:
+            stdout, stderr, status = (None, str(e), e.errno)
+
         if self.errors_on_statusbar:
             sublime.status_message(
                 'Error %i executing command [%s]: %s' %
