@@ -1,0 +1,19 @@
+Version: 1.1.0 [Apr 27, 2015]
+-----------------------------
+Allow non-zero returns from external processes.
+  FilterPipesProcessCommand now has an "expected_returns" parameter
+  which allows you to specify a list of "success" return codes. It
+  defaults to just [0], which is typical. Setting this to an empty
+  set or false will disable checking the return code, and assume
+  all returns are successful.
+
+Allow arbitrary options to be passed to Popen.
+  Added parameter 'subprocess_args' to FilterPipesProcessCommand,
+  which allows you to specify any additional parameters to pass to
+  your subprocess call, such as a specific working directory or environment.
+
+
+Version: 1.0.1 [Mar 24, 2015]
+-----------------------------
+Initial Release
+
