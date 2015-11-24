@@ -26,7 +26,7 @@ github.com/tylerl/FilterPipes
 """
 
 __author__ = 'Tyler Larson [github.com/tylerl/]'
-__version__ = '1.0.1'
+__version__ = '1.1.0'
 __license__ = 'Apache 2'
 __copyright__ = 'Copyright 2015, Google Inc.'
 
