@@ -76,6 +76,12 @@ baked into a single simple command.
 * **Collapse Spaces**: Turns runs of any sort of whitespace into a single
 space character. 
 
+* **Hex to Decimal, Decimal to Hex, Octal to Decimal, Decimal to Octal**:
+Convert integers between popular numeric bases. This is provided as an
+example of a regex filter that uses a callback function for replacements
+instead of a simple string constant. It's also an example of the use of
+using the `post_init` callback to rewrite the runtime configuration
+(in this case the search regex) programatically. 
 
 #### Process Filters
 Entire plugins have been written for performing this one simple action. Actually,

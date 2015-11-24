@@ -115,6 +115,14 @@ class FilterPipesCommandBase(sublime_plugin.TextCommand):
         if msg:
             sublime.status_message(msg)
 
+    def post_init(self):
+        """Hook for doing some post-init reconfiguration.
+
+        See the IntToInt filter for an example of how this
+        can be useful.
+        """
+        pass
+
     def apply_settings(self, settings):
         for k, v in settings.items():
             setattr(self, k, v)
@@ -122,6 +130,7 @@ class FilterPipesCommandBase(sublime_plugin.TextCommand):
     def run(self, edit, **settings):
         try:
             self.apply_settings(settings)
+            self.post_init()
             self.do_replacements(edit)
         except Exception as ex:
             if self.errors_on_statusbar:
