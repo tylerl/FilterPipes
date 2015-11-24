@@ -60,5 +60,38 @@
       "replacement": "",
       "lines": true
     }
+  },
+  /* Advanced regex with post_init use */
+  {
+    "caption": "FilterPipes: Hex to Decimal",
+    "command": "filter_pipes_int_to_int",
+    "args": {
+      "from_base": 16,
+      "to_base": 10
+    }
+  },
+  {
+    "caption": "FilterPipes: Decimal to Hex",
+    "command": "filter_pipes_int_to_int",
+    "args": {
+      "from_base": 10,
+      "to_base": 16
+    }
+  },
+  {
+    "caption": "FilterPipes: Decimal to Octal",
+    "command": "filter_pipes_int_to_int",
+    "args": {
+      "from_base": 10,
+      "to_base": 8
+    }
+  },
+  {
+    "caption": "FilterPipes: Octal to Decimal",
+    "command": "filter_pipes_int_to_int",
+    "args": {
+      "from_base": 8,
+      "to_base": 10
+    }
   }
 ]
